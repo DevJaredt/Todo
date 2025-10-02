@@ -1,0 +1,1 @@
+{"version":3,"file":"todoController.d.ts","sourceRoot":"","sources":["../../src/controllers/todoController.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAGjD,eAAO,MAAM,cAAc;gBACb,OAAO,OAAO,QAAQ;iBAKrB,OAAO,OAAO,QAAQ;gBAavB,OAAO,OAAO,QAAQ;gBActB,OAAO,OAAO,QAAQ;gBAqBtB,OAAO,OAAO,QAAQ;yBAmBb,OAAO,OAAO,QAAQ;CAiB5C,CAAC"}
