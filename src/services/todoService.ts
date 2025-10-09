@@ -1,57 +1,30 @@
-import type { Todo } from "../models/todo.model.js";
-
-const todos: Todo[] = [];
+import { todoModel, type ITodo } from "../models/todo.model.js";
 
 export const todoService = {
-  getAll() {
-    return todos;
+  async getAllTodos(): Promise<ITodo[]> {
+    return await todoModel.find();
   },
 
-  getById(id: string) {
-    if (id) {
-      return todos.find((todo) => todo.id === id);
-    } else {
-      return undefined;
-    }
-  },
-  create(data: Omit<Todo, "id" | "createdAt">) {
-    const newTodo: Todo = {
-      ...data,
-      id: Date.now().toString(),
-      createdAt: new Date(),
-    };
-    todos.push(newTodo);
-    return newTodo;
+  async getTodoById(id: string): Promise<ITodo | null> {
+    return await todoModel.findById(id);
   },
 
-  update(id: string, data: Partial<Omit<Todo, "id" | "createdAt">>) {
-    const index = todos.findIndex((todo) => todo.id === id);
-    if (index === -1) {
-      return undefined;
-    }
-
-    const currentTodo = todos[index];
-    todos[index] = {
-      ...currentTodo,
-      ...data,
-    } as Todo;
-    return todos[index];
+  async createTodo(title: string, description: string): Promise<ITodo> {
+    const todo = new todoModel({ title, description });
+    return await todo.save();
   },
-  delete(id: string) {
-    const index = todos.findIndex((todo) => todo.id === id);
-    if (index === -1) {
-      return undefined;
-    }
-    const [deletedTodo] = todos.splice(index, 1);
-    return deletedTodo;
+  async updateTodo(id: string, data: Partial<ITodo>): Promise<ITodo | null> {
+    return await todoModel.findByIdAndUpdate(id, data, { new: true });
   },
-  toggleCompleted(id: string) {
-    const todo = todos.find((todo) => todo.id === id);
-    if (!todo) {
-      return undefined;
-    }
 
-    todo.completed = !todo.completed;
-    return todo;
+  async deleteTodo(id: string): Promise<ITodo | null> {
+    return await todoModel.findByIdAndDelete(id);
+  },
+  async completedTodo(id: string): Promise<ITodo | null> {
+    return await todoModel.findByIdAndUpdate(
+      id,
+      { completed: true },
+      { new: true }
+    );
   },
 };
